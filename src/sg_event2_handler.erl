@@ -1,6 +1,6 @@
 -module(sg_event2_handler).
 %% API
--export([start_link/0, add_handler/0, get_state/0, crash/0]).
+-export([start_link/0, get_state/0, crash/0]).
 
 %% gen_event callbacks
 -export([init/1, handle_event/2, handle_call/2, 
@@ -14,9 +14,6 @@
 
 start_link() ->
 	gen_event:start_link({local, ?SERVER}).
-
-add_handler() ->
-	gen_event:add_handler(?SERVER, ?MODULE, []).
 
 get_state() ->
 	gen_event:call(sg_event2, ?MODULE, get_state).
