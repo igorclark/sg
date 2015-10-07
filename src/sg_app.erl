@@ -10,19 +10,19 @@
 %% ===================================================================
 
 start(_StartType, _StartArgs) ->
-    Handlers = [
-        {sg_event1, []},
-        {sg_event2, []}
-    ],
+	Handlers = [
+		{sg_event1, []},
+		{sg_event2, []}
+	],
 
-    {ok, Pid} = sg_sup:start_link(),
-    lists:foreach(
-        fun({EventType, Config}) ->
+	{ok, Pid} = sg_sup:start_link(),
+	lists:foreach(
+		fun({EventType, Config}) ->
 			GuardSupModule = list_to_atom(atom_to_list(EventType) ++ "_guard_sup"),
 			HandlerModule = list_to_atom(atom_to_list(EventType) ++ "_handler"),
 			supervisor:start_child(GuardSupModule, [EventType, HandlerModule, Config])
-        end, Handlers),
-    {ok, Pid}.
+		end, Handlers),
+	{ok, Pid}.
 
 stop(_State) ->
-    ok.
+	ok.
