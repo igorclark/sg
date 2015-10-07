@@ -1,6 +1,7 @@
 !.gitignore
 *.swp
 rebar
+.rebar
 ebin/*
 lib/*
 priv/*

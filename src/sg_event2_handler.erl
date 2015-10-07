@@ -22,7 +22,7 @@ get_state() ->
 	gen_event:call(sg_event2, ?MODULE, get_state).
 
 crash() ->
-	error_logger:info_msg("CRASHING ON REQUEST FROM ~p", [self()]),
+	error_logger:info_msg("~p CRASHING ON REQUEST FROM PROCESS ~p", [?MODULE, self()]),
 	gen_event:call(sg_event2, ?MODULE, crash).
 
 init([]) ->
@@ -47,7 +47,7 @@ handle_info(_Info, State) ->
 	{ok, State}.
 
 terminate(_Reason, _State) ->
-	error_logger:info_msg("~p TERMINATING: ~p", [?MODULE, self()]),
+	error_logger:info_msg("~p TERMINATING: ~p~n", [?MODULE, self()]),
 	ok.
 
 code_change(_OldVsn, State, _Extra) ->

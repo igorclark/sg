@@ -1,6 +1,6 @@
 -module(sg_event1_handler).
 %% API
--export([start_link/0, add_handler/0, get_state/0]).
+-export([start_link/0, add_handler/0, get_state/0, crash/0]).
 
 %% gen_event callbacks
 -export([init/1, handle_event/2, handle_call/2, 
@@ -21,12 +21,19 @@ add_handler() ->
 get_state() ->
 	gen_event:call(sg_event1, ?MODULE, get_state).
 
+crash() ->
+	error_logger:info_msg("~p CRASHING ON REQUEST FROM PROCESS ~p", [?MODULE, self()]),
+	gen_event:call(sg_event1, ?MODULE, crash).
+
 init([]) ->
 	{ok, #state{}}.
 
 handle_event(Event, State) ->
 	error_logger:info_msg("~p ~p handle_event: ~p", [?MODULE, self(), Event]),
 	{ok, State}.
+
+handle_call(crash, _State) ->
+	badarg;
 
 handle_call(get_state, State) ->
 	{ok, State, State};
@@ -39,6 +46,7 @@ handle_info(_Info, State) ->
 	{ok, State}.
 
 terminate(_Reason, _State) ->
+	error_logger:info_msg("~p TERMINATING: ~p~n", [?MODULE, self()]),
 	ok.
 
 code_change(_OldVsn, State, _Extra) ->
