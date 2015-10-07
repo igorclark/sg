@@ -2,6 +2,6 @@ i can only really find [two](http://blog.differentpla.net/blog/2014/11/07/erlang
 
 so, i made this skeleton project version of the approach taken in [the first post](http://blog.differentpla.net/blog/2014/11/07/erlang-sup-event/), which has more detail about how to plug into supervision using ```add_sup_handler/3``` in an OTP tree rather than in straight up erlang processes. i extended it to use 2 different handlers for two different event types, it seems to start up all the right processes and the handlers get re-installed when you make them crash (by using ```crash/0```, which just makes the ```gen_event``` proc return ```badarg``` instead of ```{ok, State}```) - but i can't quite see how to make the event manager get restarted if it dies, or even really how to kill it in a way that should make it get restarted, other than just ```exit(pid(0,X,0),kill)```, which definitely seems not to get restarted.
 
-there's also a [gist implementing a ```gen_server``` ```event_handler_guard```]()https://gist.github.com/marcelog/5560239) which seems pretty neat but again i'm not sure about the best way to glue it into a supervision tree.
+there's also a [gist implementing a ```gen_server``` ```event_handler_guard```](https://gist.github.com/marcelog/5560239) which seems pretty neat but again i'm not sure about the best way to glue it into a supervision tree.
 
 so basically, yeah.
